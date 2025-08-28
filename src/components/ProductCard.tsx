@@ -1,4 +1,5 @@
 import type { IProduct } from "../interfaces"
+import { txtSlicer } from "../utils/function"
 import Image from "./Image"
 import Button from "./ui/Button"
 
@@ -8,12 +9,12 @@ interface Iprops {
 
 
 const ProductCard = ({product}:Iprops) => {
-    const {title, description, imageURL} = product
+    const {title, description, imageURL, price, category} = product
   return (
-    <div className="border-2 rounded-md p-2 flex flex-col">
-        <Image imageURL={imageURL} alt={title}/>
-        <h3>{title}</h3>
-        <p>{description}</p>
+    <div className="max-w-sm md:max-w-lg mx-auto border-2 border-gray-300 rounded-lg p-2 flex flex-col justify-between">
+        <Image imageURL={imageURL} alt={category.name} className="rounded-t-lg"/>
+        <h3 className="font-bold ">{title}</h3>
+        <p>{`${txtSlicer(description)} .....`}</p>
 
         <div className="flex my-5 space-x-2">
             <span className="w-5 h-5 bg-indigo-600 rounded-full cursor-pointer" />
@@ -22,8 +23,8 @@ const ProductCard = ({product}:Iprops) => {
         </div>
 
         <div className="flex items-center justify-between">
-            <span>$500,000</span>
-            <Image imageURL={imageURL} alt={title} className="w-5 h-5 rounded-full"/>
+            <span className="text-indigo-900 font-semibold">{`$${price}`}</span>
+            <Image imageURL={imageURL} alt={category.name} className="w-5 h-5 rounded-full"/>
         </div>
 
         <div className="flex justify-between items-center space-x-2 mt-4">
