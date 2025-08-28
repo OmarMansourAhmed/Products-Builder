@@ -28,8 +28,8 @@ const ProductCard = ({product}:Iprops) => {
         </div>
 
         <div className="flex justify-between items-center space-x-2 mt-4">
-            <Button className="bg-blue-700">EDIT</Button>
-            <Button className="bg-red-800">DELETE</Button>
+            <Button className="bg-indigo-700 hover:bg-indigo-600">EDIT</Button>
+            <Button className="bg-red-800 hover:bg-red-700">DELETE</Button>
         </div>
     </div>
   )
