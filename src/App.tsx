@@ -1,12 +1,14 @@
 import { useState, type ChangeEvent, type FormEvent } from "react"
 import ProductCard from "./components/ProductCard"
 import Modal from "./components/ui/Modal"
-import { productList, formInputsList } from "./data"
+import { productList, formInputsList, colors } from "./data"
 import { Button} from "@headlessui/react"
 import Input from "./components/ui/Input"
 import Error from "./components/Error"
 import type { IProduct } from "./interfaces"
 import { productValidation } from "./validation"
+import CircleColor from "./components/CircleColor"
+import { v4 as uuid } from "uuid";
 
 const App = () => {
   const defaultProductFormInput = {
@@ -23,7 +25,11 @@ const App = () => {
 
   // ** Form
   const [product, setProduct] = useState<IProduct>(defaultProductFormInput)
+  const [products, setProducts] = useState<IProduct[]>(productList)
   const [error, setError] = useState({ title: "", description: "", imageURL: "", price: "" })
+  const [tempColor, setTempColor] = useState<string[]>([])
+  console.log(tempColor);
+  
 
   // ** Form Handler
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -60,7 +66,12 @@ const App = () => {
 
     // Clear errors if everything is valid
     setError({ title: "", description: "", imageURL: "", price: "" });
-    console.log("Send to Server");
+    // console.log("Send to Server");
+
+    setProducts(prev => [{...product, id: uuid(), colors: tempColor} ,...prev])
+    setProduct(defaultProductFormInput)
+    setTempColor([])
+    closeModal()
   }
 
   const onCancel = () => {
@@ -79,7 +90,8 @@ const App = () => {
 
 
   // ** Render 
-  const renderProductsList = productList.map(product => <ProductCard key={product.id} product={product}/>)
+  const renderProductsList = products.map(product => <ProductCard key={product.id} product={product}/>)
+
   const renderFormInputsList = formInputsList.map(input => 
     <div className="flex flex-col" key={input.id}>
         <label htmlFor={input.id} className="text-gray-700 rounded-lg">{input.label}</label>
@@ -87,6 +99,16 @@ const App = () => {
         <Error msg={error[input.name]}/>
     </div>
   )
+
+  const renderProductColors = colors.map(color =>(
+      <CircleColor key={color} color={color} onClick={() => {
+        if(tempColor.includes(color)){
+          setTempColor(prev => prev.filter(item => item !== color))
+          return;
+        }
+        setTempColor(prev =>  [...prev, color])
+      }}/>
+  ))
 
 
   return (
@@ -99,6 +121,17 @@ const App = () => {
       <Modal isOpen={isOpen} closeModal={closeModal} title={"ADD NEW PRODUCT"}>
         <form className="space-y-3" onSubmit={submitHandler}>
           {renderFormInputsList}
+          <div className="flex space-x-1 items-center">
+            {renderProductColors}
+          </div>
+          <div className="flex flex-nowrap space-x-1 items-center">
+            {tempColor.map(color => (
+              <span
+                key={color} className="p-1 mr-1 text-xs rounded-md text-white" style={{backgroundColor: color}}>
+                  {color}
+              </span>
+            ))}
+          </div>
           <div className="flex items-center space-x-2">
             <Button className="bg-indigo-700 hover:bg-indigo-500 text-white w-full rounded-md p-2 cursor-pointer"
               type="submit">Submit</Button>

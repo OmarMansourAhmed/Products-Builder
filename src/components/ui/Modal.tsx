@@ -46,7 +46,6 @@ interface Iprops {
                     >
                     {title}
                   </Dialog.Title>}
-
                   <div className="mt-4">
                     {children}
                   </div>
