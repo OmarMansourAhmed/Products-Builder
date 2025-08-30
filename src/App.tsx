@@ -1,7 +1,7 @@
 import { useState, type ChangeEvent, type FormEvent } from "react"
 import ProductCard from "./components/ProductCard"
 import Modal from "./components/ui/Modal"
-import { productList, formInputsList, colors } from "./data"
+import { productList, formInputsList, colors, categories } from "./data"
 import { Button} from "@headlessui/react"
 import Input from "./components/ui/Input"
 import Error from "./components/Error"
@@ -9,6 +9,7 @@ import type { IProduct } from "./interfaces"
 import { productValidation } from "./validation"
 import CircleColor from "./components/CircleColor"
 import { v4 as uuid } from "uuid";
+import SelectMenu from "./components/ui/SelectMenu"
 
 const App = () => {
   const defaultProductFormInput = {
@@ -28,7 +29,8 @@ const App = () => {
   const [products, setProducts] = useState<IProduct[]>(productList)
   const [error, setError] = useState({ title: "", description: "", imageURL: "", price: "" })
   const [tempColor, setTempColor] = useState<string[]>([])
-  console.log(tempColor);
+  const [selectedCategory, setSelectedCategory] = useState(categories[0])
+  // console.log(tempColor);
   
 
   // ** Form Handler
@@ -68,7 +70,7 @@ const App = () => {
     setError({ title: "", description: "", imageURL: "", price: "" });
     // console.log("Send to Server");
 
-    setProducts(prev => [{...product, id: uuid(), colors: tempColor} ,...prev])
+    setProducts(prev => [{...product, id: uuid(), colors: tempColor, category: selectedCategory} ,...prev])
     setProduct(defaultProductFormInput)
     setTempColor([])
     closeModal()
@@ -121,6 +123,7 @@ const App = () => {
       <Modal isOpen={isOpen} closeModal={closeModal} title={"ADD NEW PRODUCT"}>
         <form className="space-y-3" onSubmit={submitHandler}>
           {renderFormInputsList}
+          <SelectMenu selected = {selectedCategory} setSelected={setSelectedCategory}/>
           <div className="flex space-x-1 items-center">
             {renderProductColors}
           </div>
