@@ -5,12 +5,13 @@ interface Iprops {
     isOpen: boolean,
     closeModal: () => void,
     title?: string,
-    children: ReactNode
+    children: ReactNode,
+    description?: string
 }
 
 
 
- const Modal = ({isOpen, closeModal, title, children}: Iprops) => {
+ const Modal = ({isOpen, closeModal, title, description, children}: Iprops) => {
 
   return (
     <>

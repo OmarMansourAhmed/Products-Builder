@@ -34,6 +34,7 @@ const App = () => {
   const [productToEdit, setProductToEdit] = useState<IProduct>(defaultProductFormInput)
   const [isOpenEditModal, setIsOpenEditModal] = useState(false)
   const [productToEditIdx, setProductToEditIdx] = useState<number>(0)
+  const [isOpenConfirmModal, setIsOpenConfirmModal] = useState(false);
   // console.log(tempColor);
   
 
@@ -117,13 +118,20 @@ const App = () => {
   // console.log("Send to Server");
 
   const updatedProducts = [...products];
-  updatedProducts[productToEditIdx] = productToEdit;
+  updatedProducts[productToEditIdx] = {...productToEdit, colors: tempColor.concat(productToEdit.colors)};
   setProducts(updatedProducts);
 
   
   setProductToEdit(defaultProductFormInput)
   setTempColor([])
   closeEditModal()
+  }
+
+  const removeProductHandler = () => {
+    const filtered = products.filter(product => product.id !== productToEdit.id)
+    setProducts(filtered)
+
+    closeConfirmModal()
   }
 
 
@@ -141,12 +149,15 @@ const App = () => {
   const closeEditModal = () => setIsOpenEditModal(false)
   const openModal = () => setIsOpen(true)
   const openEditModal = () => setIsOpenEditModal(true)
+  const closeConfirmModal = () => setIsOpenConfirmModal(false);
+  const openConfirmModal = () => setIsOpenConfirmModal(true);
+
 
 
 
   // ** Render 
   const renderProductsList = products.map((product, idx) => <ProductCard key={product.id} product={product}
-    setProductToEdit={setProductToEdit} openEditModal={openEditModal} idx={idx} setProductToEditIdx={setProductToEditIdx}/>)
+    setProductToEdit={setProductToEdit} openEditModal={openEditModal} idx={idx} setProductToEditIdx={setProductToEditIdx} openConfirmModal={openConfirmModal}/>)
 
   const renderFormInputsList = formInputsList.map(input => 
     <div className="flex flex-col" key={input.id}>
@@ -217,19 +228,19 @@ const App = () => {
           {renderEditProductsWithErrorMsg('description', 'Product Description', 'description')}
           {renderEditProductsWithErrorMsg('imageURL', 'Product Image', 'imageURL')}
           {renderEditProductsWithErrorMsg('price', 'Product Price', 'price')}
-          {/* <SelectMenu selected = {selectedCategory} setSelected={setSelectedCategory}/> */}
-
-          {/* <div className="flex space-x-1 items-center">
+          <SelectMenu selected = {productToEdit.category}
+            setSelected={(value) => setProductToEdit({...productToEdit, category: value})}/>
+          <div className="flex space-x-1 items-center">
             {renderProductColors}
           </div>
           <div className="flex flex-nowrap space-x-1 items-center">
-            {tempColor.map(color => (
+            {tempColor.concat(productToEdit.colors).map(color => (
               <span
                 key={color} className="p-1 mr-1 text-xs rounded-md text-white" style={{backgroundColor: color}}>
                   {color}
               </span>
             ))}
-          </div> */}
+          </div>
 
           <div className="flex items-center space-x-2">
             <Button className="bg-indigo-700 hover:bg-indigo-500 text-white w-full rounded-md p-2 cursor-pointer"
@@ -238,6 +249,23 @@ const App = () => {
               onClick={onCancel}>Cancel</Button>
           </div>
         </form>
+      </Modal>
+
+      {/* Remove Product */}
+      <Modal
+        isOpen={isOpenConfirmModal}
+        closeModal={closeConfirmModal}
+        title="Are you sure you want to remove this Product from your Store?"
+        description="Deleting this product will remove it permanently from your inventory. Any associated data, sales history, and other related information will also be deleted. Please make sure this is the intended action."
+      >
+        <div className="flex items-center space-x-3">
+          <Button className="bg-[#c2344d] hover:bg-red-800 p-3 rounded-xl text-white cursor-pointer" onClick={removeProductHandler}>
+            Yes, remove
+          </Button>
+          <Button className="bg-[#f5f5fa] hover:bg-gray-300 p-3 rounded-xl !text-black cursor-pointer" onClick={closeConfirmModal}>
+            Cancel
+          </Button>
+        </div> 
       </Modal>
     </div>
   )

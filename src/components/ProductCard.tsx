@@ -10,11 +10,12 @@ interface Iprops {
     setProductToEdit: (product: IProduct) => void,
     openEditModal: () => void,
     idx: number,
-    setProductToEditIdx: (value: number) => void
+    setProductToEditIdx: (value: number) => void,
+    openConfirmModal: () => void;
 }
 
 
-const ProductCard = ({product, setProductToEdit, openEditModal, idx, setProductToEditIdx}:Iprops) => {
+const ProductCard = ({product, setProductToEdit, openEditModal, idx, setProductToEditIdx, openConfirmModal}:Iprops) => {
     const {title, description, imageURL, price, colors ,category} = product
 
     const renderProductColors = colors.map(color =>(
@@ -25,6 +26,11 @@ const editHandler = (): void => {
     setProductToEdit(product);
     openEditModal()
     setProductToEditIdx(idx)
+}
+
+const onRemove = (): void => {
+    setProductToEdit(product);
+    openConfirmModal()
 }
 
   return (
@@ -47,7 +53,7 @@ const editHandler = (): void => {
 
         <div className="flex justify-between items-center space-x-2 mt-4">
             <Button className="bg-indigo-700 hover:bg-indigo-600" onClick={editHandler}>EDIT</Button>
-            <Button className="bg-red-800 hover:bg-red-700">DELETE</Button>
+            <Button className="bg-red-800 hover:bg-red-700" onClick={onRemove}>REMOVE</Button>
         </div>
     </div>
   )

@@ -7,8 +7,9 @@ import { categories } from '../../data'
 import type { ICategory } from '../../interfaces'
 
 interface Iprops {
-    selected: ICategory,
-    setSelected: (category: ICategory) => void
+    selected: {name: string, imageURL: string},
+    setSelected: (category: ICategory) => void,
+
 }
 
 
@@ -21,7 +22,7 @@ export default function Example({selected, setSelected}: Iprops) {
       <div className="relative mt-2">
         <ListboxButton className="grid w-full cursor-default grid-cols-1 rounded-md bg-white py-3 pr-2 pl-3 text-left text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-indigo-600 sm:text-sm/6">
           <span className="col-start-1 row-start-1 flex items-center gap-3 pr-6">
-            <img alt="" src={selected.imageURL} className="size-5 shrink-0 rounded-full bg-gray-100" />
+            <img alt={selected.name} src={selected.imageURL} className="size-5 shrink-0 rounded-full bg-gray-100" />
             <span className="block truncate">{selected.name}</span>
           </span>
           <ChevronUpDownIcon
