@@ -3,20 +3,19 @@
 A **React + TypeScript** application that allows you to **create, manage, and showcase products** in a sleek, responsive UI.    
 ---
 
-## ✨ Features  
+## Features  
 
-- ✅ **Landing Page** – Hero section, features, and call-to-action for exploring products  
-- ✅ **Product Catalog** – Display products in responsive product cards  
-- ✅ **Add Products** – Use a modal with validation to create new products  
-- ✅ **Edit Products** – Update product details and manage categories/colors  
-- ✅ **Remove Products** – Confirmation modal to safely delete products  
-- ✅ **Custom Components** – Inputs, buttons, error messages, modal, product card, etc.  
-- ✅ **State Management with Hooks** – Manage products, form inputs, errors, and modals with `useState`  
-- ✅ **Validation** – User-friendly error handling with custom validation  
----
+-  **Landing Page** – Hero section, features, and call-to-action for exploring products  
+-  **Product Catalog** – Display products in responsive product cards  
+-  **Add Products** – Use a modal with validation to create new products  
+-  **Edit Products** – Update product details and manage categories/colors  
+-  **Remove Products** – Confirmation modal to safely delete products  
+-  **Custom Components** – Inputs, buttons, error messages, modal, product card, etc.  
+-  **State Management with Hooks** – Manage products, form inputs, errors, and modals with `useState`  
+-  **Validation** – User-friendly error handling with custom validation  
 ---
 
-## 🛠️ Tech Stack  
+## Tech Stack  
 
 - **Frontend:** React 19, TypeScript, TailwindCSS  
 - **UI Components:** Headless UI, custom components (Modal, Button, Input, SelectMenu)  
