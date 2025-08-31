@@ -4,17 +4,28 @@ import CircleColor from "./CircleColor"
 import Image from "./Image"
 import Button from "./ui/Button"
 
+
 interface Iprops {
-    product: IProduct
+    product: IProduct,
+    setProductToEdit: (product: IProduct) => void,
+    openEditModal: () => void,
+    idx: number,
+    setProductToEditIdx: (value: number) => void
 }
 
 
-const ProductCard = ({product}:Iprops) => {
+const ProductCard = ({product, setProductToEdit, openEditModal, idx, setProductToEditIdx}:Iprops) => {
     const {title, description, imageURL, price, colors ,category} = product
 
     const renderProductColors = colors.map(color =>(
       <CircleColor key={color} color={color}/>
   ))
+
+const editHandler = (): void => {
+    setProductToEdit(product);
+    openEditModal()
+    setProductToEditIdx(idx)
+}
 
   return (
     <div className="max-w-sm md:max-w-lg mx-auto border-2 border-gray-300 rounded-lg p-2 flex flex-col justify-between">
@@ -35,7 +46,7 @@ const ProductCard = ({product}:Iprops) => {
         </div>
 
         <div className="flex justify-between items-center space-x-2 mt-4">
-            <Button className="bg-indigo-700 hover:bg-indigo-600">EDIT</Button>
+            <Button className="bg-indigo-700 hover:bg-indigo-600" onClick={editHandler}>EDIT</Button>
             <Button className="bg-red-800 hover:bg-red-700">DELETE</Button>
         </div>
     </div>
